@@ -1,15 +1,58 @@
 package com.emusicstore.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class CartItem {
 	private int quantity=0;
 	private double totalPrice=0;
+	@ManyToOne
+	@JoinColumn(name="productId")
 	private Product product;
+	@ManyToOne
+	@JoinColumn(name ="cartId")
+	private Cart cart;
+	
+
+	
+	public Cart getCart() {
+		return cart;
+	}
+
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+
+	@Id	
+	@GeneratedValue
+	private int cartitemId;
 	
 	
-	public CartItem(Product product) {
-		this.product=product;
-		this.quantity=1;
-		
+
+
+	public Product getProduct() {
+		return product;
+	}
+
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+
+	public int getCartitemId() {
+		return cartitemId;
+	}
+
+
+	public void setCartitemId(int cartitemId) {
+		this.cartitemId = cartitemId;
 	}
 
 
@@ -33,20 +76,8 @@ public class CartItem {
 	}
 
 
-	public Product getProduct() {
-		return product;
-	}
-
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	
-	public String getId() {
-		return String.valueOf(product.getProductId());
-		
 		
 		
 	}
 
-}
+

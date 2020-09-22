@@ -35,7 +35,6 @@
 
 	<c:forEach items="${products}" var="product">
 
-
 		<tr>
 			<td><img
 				src="<c:url value="/resources/images/{product.productId}.png"/>"
@@ -48,8 +47,6 @@
 				href="<spring:url value="/productList/viewProduct/${product.productId}"/>">
 					<span class="glyphicon glyphicon-info-sign"></span>
 			</a></td>
-
-
 		</tr>
 
 	</c:forEach>

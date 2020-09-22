@@ -2,23 +2,25 @@ package com.emusicstore.model;
 
 
 import org.springframework.web.multipart.MultipartFile;
-
-
-
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 
 
+@Entity
 public  class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private int productId;
+    
     private String productName;
     private String productCategory;
     private String productDescription;
@@ -29,9 +31,18 @@ public  class Product {
     private String productManufacturer;
     @Transient
     private MultipartFile image;
+    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+    private List<CartItem> items; 
+    public List<CartItem> getItems() {
+		return items;
+	}
 
+	public void setItems(List<CartItem> items) {
+		this.items = items;
+	}
 
-    public Product(){
+	public Product(){
 
     }
 

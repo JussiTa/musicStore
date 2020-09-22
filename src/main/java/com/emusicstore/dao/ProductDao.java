@@ -13,9 +13,9 @@ public interface ProductDao {
 
     public Product getProductById(String Id);
 
-    public void deleteProduct(String Id);
+    public void deleteProduct(Product product);
     
-    public void update(Product product);
+    public void edit(Product product);
 
 
 

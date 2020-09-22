@@ -13,31 +13,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.emusicstore.dao.CartDao;
-import com.emusicstore.dao.ProductDao;
+import com.emusicstore.Service.CartService;
+
 import com.emusicstore.model.Cart;
-import com.emusicstore.model.CartItem;
-import com.emusicstore.model.Product;
+
 
 @Controller
 @RequestMapping("/rest/cart")
 public class CartController {
-
-	@Autowired
-	private ProductDao productDao;
-	@Autowired
-	private CartDao cartdao;
+@Autowired
+private CartService cartService;	
 
 	@RequestMapping(value = "/{cartId}", method = RequestMethod.GET)
 	public @ResponseBody Cart read(@PathVariable(value = "/cartId") String cartId) {
-		return cartdao.read(cartId);
+		return cartService.getCartById(cartId);
 	}
 
 	@RequestMapping(value = "/{cartId}", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@PathVariable(value = "/cartId") String cartId, @RequestBody Cart cart) {
 
-		cartdao.update(cartId, cart);
+		
 
 	}
 
@@ -46,51 +42,25 @@ public class CartController {
 
 	public void delete(@PathVariable(value = "/cartId") String cartId) {
 
-		cartdao.delete(cartId);
+		
 
 	}
 
 	@RequestMapping(value = "/add/{cartId}", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void addItem(@PathVariable(value = "productId") String productId, HttpServletRequest request) {
+	public void addItem(@PathVariable(value = "productId") int productId, HttpServletRequest request) {
 		String session = request.getSession(true).getId();
 
-		Cart cart = cartdao.read(session);
-
-		if (cart == null)
-			cartdao.create(new Cart(session));
-
-		Product product = productDao.getProductById(productId);
-
-		if (product == null) {
-			throw new IllegalArgumentException(new Exception());
-		}
-
-		cart.addItem(new CartItem(product));
-
-		cartdao.update(session, cart);
+	
 
 	}
 
 	@RequestMapping(value = "/remove/{productId}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteItem(@PathVariable(value = "productId") String productId, HttpServletRequest request) {
+	public void deleteItem(@PathVariable(value = "productId") int productId, HttpServletRequest request) {
 		String session = request.getSession(true).getId();
 
-		Cart cart = cartdao.read(session);
-
-		if (cart == null)
-			throw new IllegalArgumentException(new Exception());
-
-		Product product = productDao.getProductById(productId);
-
-		if (product == null) {
-			throw new IllegalArgumentException(new Exception());
-		}
-
-		cart.removeItem(new CartItem(product));
-
-		cartdao.update(session, cart);
+		
 
 	}
 

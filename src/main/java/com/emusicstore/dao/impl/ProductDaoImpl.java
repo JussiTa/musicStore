@@ -6,25 +6,25 @@ import java.util.logging.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import com.emusicstore.dao.ProductDao;
 import com.emusicstore.model.Product;
 //For Spring to scan this class to Spring container.
-
+@Qualifier("product")
 @Repository
-@Transactional
-
 public class ProductDaoImpl implements ProductDao {
-
-	@Autowired
-	SessionFactory sessionFactory;
+    
+	@Autowired	
+	private SessionFactory sessionFactory;
+	
+	
 
 	private Logger log = Logger.getLogger(Product.class.getName());
 
 	public void addProduct(Product product) {
-		System.out.println("täällä ollaan");
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(product);
 		session.flush();
@@ -61,14 +61,15 @@ public class ProductDaoImpl implements ProductDao {
 		return product;
 	}
 
-	public void deleteProduct(String Id) {
+	public void deleteProduct(Product product) {
 		Session session = sessionFactory.getCurrentSession();
-		session.delete(getProductById(Id));
+		session.delete(product);
+		
 		session.flush();
 
 	}
 
-	public void update(Product product) {
+	public void edit(Product product) {
 
 		Session session = sessionFactory.getCurrentSession();
 		session.save(product);

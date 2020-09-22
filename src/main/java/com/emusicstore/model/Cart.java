@@ -1,36 +1,49 @@
 package com.emusicstore.model;
 
-import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+@Entity
 public class Cart {
 	
 	private double grandTotal;
-	private String id;
+	@Id	
+	@GeneratedValue
+	private int cartId;
 	@OneToMany (mappedBy ="cart", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Map<String, CartItem> cartItems;
+	
+	public Map<String, CartItem> getCartItems() {
+		return cartItems;
+	}
+
+	public void setCartItems(Map<String, CartItem> cartItems) {
+		this.cartItems = cartItems;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	@OneToOne
 	@JoinColumn(name="customerId")
 	@JsonIgnore
 	private Customer customer;
-	
-	private Cart() {
-		cartItems= new HashMap<String, CartItem>();
-		
-	}
 
-	public Cart(String cartId) {
-		this();
-		this.id=cartId;
-	}
 
 	public double getGrandTotal() {
 		return grandTotal;
@@ -40,29 +53,19 @@ public class Cart {
 		this.grandTotal = grandTotal;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public Map<String, CartItem> getCartItems() {
-		return cartItems;
-	}
-
-	public void setCartItems(Map<String, CartItem> cartItems) {
-		this.cartItems = cartItems;
+	public int getId() {
+		return cartId ;
 	}
 	
-	public void addItem(CartItem item) {
-		cartItems.put(item.getId(), item);
+	public void setId(int id) {
+		this.cartId = id;
 	}
-	public void removeItem(CartItem item) {
-		cartItems.remove(item.getId());
+
+	
 		
 		
 	}
 
-}
+
+////gggegegegegegege
+
